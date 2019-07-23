@@ -2,14 +2,16 @@ FROM python:3-stretch
 
 RUN apt-get update && \
     apt-get install -y curl nano && \
-    pip install ipython ipdb pytest
+    pip install --no-cache-dir ipython ipdb pytest
 
 # COPY mongodb-enterprise-server_4.0.8_amd64.deb /opt
 COPY mongodb-enterprise-tools_4.0.8_amd64.deb /opt
 COPY mongodb-enterprise-shell_4.0.8_amd64.deb /opt
 
-RUN pip install pymongo && \
+RUN pip install --no-cache-dir pymongo && \
     apt-get install -y libpci3 libsensors4 libsnmp30 libwrap0 snmp && \
     dpkg -i /opt/mongodb-enterprise-tools_4.0.8_amd64.deb && \
     dpkg -i /opt/mongodb-enterprise-shell_4.0.8_amd64.deb
     # dpkg -i /opt/mongodb-enterprise-server_4.0.8_amd64.deb
+
+RUN rm /opt/*
